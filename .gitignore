@@ -1,0 +1,12 @@
+# Shell history files
+.bash_history
+.zsh_history
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Files that may contain secrets or local information
+*.secret
+*.env
+.local
