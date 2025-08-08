@@ -15,7 +15,7 @@ require_sudo() {
 }
 
 install_packages() {
-  echo "[1/4] Installing required packages via yay..."
+  echo "[1/5] Installing required packages via yay..."
   if ! command -v yay >/dev/null 2>&1; then
     echo "'yay' is required but was not found. Please install yay first." >&2
     exit 1
@@ -28,13 +28,14 @@ install_packages() {
     greetd-tuigreet
     libva-utils    # screenrecord
     intel-media-driver # screenrecord
+    nautilus-open-any-terminal # Nautilus "Open in Terminal"
   )
   echo "Packages: ${PACKAGES[*]}"
   yay -S --needed --noconfirm "${PACKAGES[@]}" || true
 }
 
 stow_modules() {
-  echo "[2/4] Stowing modules (explicit list)..."
+  echo "[2/5] Stowing modules (explicit list)..."
   # Explicit list of modules to stow
   local modules=(hypr nvim waybar alacritty bash starship)
   local repo_root
@@ -49,7 +50,7 @@ stow_modules() {
 }
 
 configure_greetd() {
-  echo "[3/4] Configuring greetd (no autologin)..."
+  echo "[4/5] Configuring greetd (no autologin)..."
   sudo install -d -m 755 /etc/greetd
   sudo tee /etc/greetd/config.toml >/dev/null <<'EOF'
 [terminal]
@@ -73,7 +74,7 @@ EOF
 
 print_notes() {
   cat <<'EONOTE'
-[4/4] Done.
+[5/5] Done.
 
 - greetd + tuigreet has been configured. On next boot, you'll see a TUI greeter.
 - Hyprland is launched via UWSM to match your current Omarchy setup.
@@ -89,6 +90,8 @@ main() {
   require_sudo
   install_packages
   stow_modules
+  echo "[3/5] Configuring Nautilus 'Open in Terminal' (Alacritty)..."
+  "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"/scripts/nautilus_open_terminal.sh || true
   configure_greetd
   print_notes
 }
