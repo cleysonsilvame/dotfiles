@@ -1,0 +1,8 @@
+# Starship configuration
+# Reference: https://starship.rs/config/
+
+# Hide email/account for Google Cloud in the prompt
+[gcloud]
+# Show only the symbol and the project (if available), no account/email
+format = 'on [$symbol(\($project\))(\($region\))]($style) '
+disabled = false

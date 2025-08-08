@@ -51,6 +51,17 @@ To apply all configurations at once:
 stow *
 ```
 
+### 2.4. Starship Prompt
+
+Ensure Starship is installed and link the configuration:
+
+```bash
+yay -S starship
+stow starship
+```
+
+The prompt is configured to hide the Google Cloud account e‑mail, showing only the GCP symbol, project and region.
+
 ## Managed Programs
 
 *   alacritty
@@ -58,16 +69,18 @@ stow *
 *   hypr
 *   waybar
 *   bash
+*   starship
 *   (and others you might add)
 
 
 
 # TODO:
 
-- [ ] Add starship to the dotfiles
+- [x] Add starship to the dotfiles
 - [ ] Add FiraCode Nerd Font to the dotfiles
 - [ ] Change arrow keybinds for hjkl to focus
 - [ ] Fix non hidden files in nvim
 - [ ] Check if add the keyboard settings from ~/.config/fcitx5/
 - [ ] add keysmaps for vscode mode using as example the astronvim config
+- [ ] add script for post-install
 
