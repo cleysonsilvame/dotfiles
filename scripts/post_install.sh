@@ -15,7 +15,7 @@ require_sudo() {
 }
 
 install_packages() {
-  echo "[1/4] Installing required packages via yay..."
+  echo "Installing required packages via yay..."
   if ! command -v yay >/dev/null 2>&1; then
     echo "'yay' is required but was not found. Please install yay first." >&2
     exit 1
@@ -34,7 +34,7 @@ install_packages() {
 }
 
 stow_modules() {
-  echo "[2/4] Stowing modules (explicit list)..."
+  echo "Stowing modules (explicit list)..."
   # Explicit list of modules to stow
   local modules=(hypr nvim waybar alacritty bash starship)
   local repo_root
@@ -51,8 +51,6 @@ stow_modules() {
 print_notes() {
   cat <<'EONOTE'
 
-[4/4] Done.
-
 - Selected Omarchy WebApps have been removed (e.g., WhatsApp).
 - Nautilus “Open in Terminal” is configured to use Alacritty.
 - Selected dotfile modules have been stowed.
@@ -61,12 +59,26 @@ EONOTE
 
 main() {
   require_sudo
+
+  TOTAL_STEPS=4
+  CURRENT_STEP=1
+
+  echo "[$CURRENT_STEP/$TOTAL_STEPS] Installing required packages via yay..."
   install_packages
+
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  echo "[$CURRENT_STEP/$TOTAL_STEPS] Stowing modules (explicit list)..."
   stow_modules
-  echo "[3/4] Removing Omarchy WebApps..."
+
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  echo "[$CURRENT_STEP/$TOTAL_STEPS] Removing Omarchy WebApps..."
   "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"/scripts/omarchy_remove_webapps.sh || true
-  echo "[4/4] Configuring Nautilus 'Open in Terminal' (Alacritty)..."
+
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  echo "[$CURRENT_STEP/$TOTAL_STEPS] Configuring Nautilus 'Open in Terminal' (Alacritty)..."
   "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"/scripts/nautilus_open_terminal.sh || true
+
+  echo "[$TOTAL_STEPS/$TOTAL_STEPS] Done."
   print_notes
 }
 
