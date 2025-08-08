@@ -57,4 +57,17 @@ stow *
 *   nvim
 *   hypr
 *   waybar
+*   bash
 *   (and others you might add)
+
+
+
+# TODO:
+
+- [ ] Add starship to the dotfiles
+- [ ] Add FiraCode Nerd Font to the dotfiles
+- [ ] Change arrow keybinds for hjkl to focus
+- [ ] Fix non hidden files in nvim
+- [ ] Check if add the keyboard settings from ~/.config/fcitx5/
+- [ ] add keysmaps for vscode mode using as example the astronvim config
+
