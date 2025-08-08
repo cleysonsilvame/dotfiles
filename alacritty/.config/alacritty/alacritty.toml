@@ -19,3 +19,9 @@ opacity = 0.98
 bindings = [
 { key = "F11", action = "ToggleFullscreen" }
 ]
+
+[mouse]
+bindings = [
+{ mouse = "Right", action = "Copy" },
+{ mouse = "Middle", action = "Paste" }
+]
