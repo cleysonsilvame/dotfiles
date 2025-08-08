@@ -53,14 +53,11 @@ This will install `stow` and apply all modules automatically.
 
 # TODO:
 
-- [x] Add starship to the dotfiles
 - [ ] Add FiraCode Nerd Font to the dotfiles
 - [ ] Change arrow keybinds for hjkl to focus
 - [ ] Fix non hidden files in nvim
 - [ ] Check if add the keyboard settings from ~/.config/fcitx5/
 - [ ] add keysmaps for vscode mode using as example the astronvim config
-- [ ] add script for post-install
 - [ ] Change all Whatsapp to ZapZap
-- [ ] Add open to terminal on nautilus
 - [ ] Adicionar configuração do Ctrl T do Diego no meu dotfiles
 
