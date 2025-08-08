@@ -4,8 +4,7 @@ set -euo pipefail
 # General post-install to run right after Omarchy setup
 # - Installs dependencies
 # - Stows dotfile modules
-# - Switches from Omarchy seamless autologin to greetd + tuigreet (no autologin)
-# - Configures greetd to start Hyprland via UWSM
+# - Configures Nautilus 'Open in Terminal' (Alacritty)
 
 require_sudo() {
   if ! sudo -v; then
@@ -15,7 +14,7 @@ require_sudo() {
 }
 
 install_packages() {
-  echo "[1/5] Installing required packages via yay..."
+  echo "[1/3] Installing required packages via yay..."
   if ! command -v yay >/dev/null 2>&1; then
     echo "'yay' is required but was not found. Please install yay first." >&2
     exit 1
@@ -35,7 +34,7 @@ install_packages() {
 }
 
 stow_modules() {
-  echo "[2/5] Stowing modules (explicit list)..."
+  echo "[2/3] Stowing modules (explicit list)..."
   # Explicit list of modules to stow
   local modules=(hypr nvim waybar alacritty bash starship)
   local repo_root
@@ -49,40 +48,14 @@ stow_modules() {
   popd >/dev/null
 }
 
-configure_greetd() {
-  echo "[4/5] Configuring greetd (no autologin)..."
-  sudo install -d -m 755 /etc/greetd
-  sudo tee /etc/greetd/config.toml >/dev/null <<'EOF'
-[terminal]
-vt = 1
-
-[default_session]
-# Greeter (tuigreet) launching Hyprland via UWSM
-command = "tuigreet --time --remember --remember-session --asterisks --cmd uwsm start -- hyprland.desktop"
-user = "greeter"
-EOF
-
-  # Disable Omarchy seamless autologin if present
-  if systemctl list-unit-files | grep -q '^omarchy-seamless-login.service'; then
-    echo "Disabling omarchy-seamless-login.service..."
-    sudo systemctl disable --now omarchy-seamless-login.service || true
-  fi
-
-  echo "Enabling greetd.service..."
-  sudo systemctl enable --now greetd.service
-}
+ 
 
 print_notes() {
   cat <<'EONOTE'
-[5/5] Done.
+[3/3] Done.
 
-- greetd + tuigreet has been configured. On next boot, you'll see a TUI greeter.
-- Hyprland is launched via UWSM to match your current Omarchy setup.
-- If you had added a lock-on-start to ~/.config/hypr/autostart.conf, you may want to remove it when using a greeter.
-
-Rollback:
-  sudo systemctl disable --now greetd.service
-  sudo systemctl enable --now omarchy-seamless-login.service
+- Nautilus “Open in Terminal” is configured to use Alacritty.
+- Selected dotfile modules have been stowed.
 EONOTE
 }
 
@@ -90,9 +63,8 @@ main() {
   require_sudo
   install_packages
   stow_modules
-  echo "[3/5] Configuring Nautilus 'Open in Terminal' (Alacritty)..."
+  echo "[3/3] Configuring Nautilus 'Open in Terminal' (Alacritty)..."
   "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"/scripts/nautilus_open_terminal.sh || true
-  configure_greetd
   print_notes
 }
 
