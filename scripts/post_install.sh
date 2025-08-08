@@ -34,17 +34,12 @@ install_packages() {
 }
 
 stow_modules() {
-  echo "[2/4] Stowing modules..."
-  # Known modules maintained in this repo; skip if directory missing
-  local modules=(hypr nvim waybar alacritty bash starship)
+  echo "[2/4] Stowing all modules (stow */)..."
   local repo_root
   repo_root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
   pushd "$repo_root" >/dev/null
-  for mod in "${modules[@]}"; do
-    if [[ -d "$mod" ]]; then
-      stow "$mod"
-    fi
-  done
+  # Stow every top-level directory (modules). '*/' ensures only directories are passed
+  stow */
   popd >/dev/null
 }
 

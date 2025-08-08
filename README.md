@@ -31,42 +31,13 @@ git clone <YOUR_REPOSITORY_URL> ~/dotfiles
 cd ~/dotfiles
 ```
 
-### 2.2. Install GNU Stow
-
-```bash
-yay -S stow
-```
-
-### 2.3. Apply the Configurations
-
-Use `stow` to create the symbolic links from the configurations to their correct locations.
-
-To apply a specific configuration (e.g., `nvim`):
-```bash
-stow nvim
-```
-
-To apply all configurations at once:
-```bash
-stow *
-```
-
-### 2.5. Post-install steps
+### 2.2. Post-install steps
 
 ```bash
 ./scripts/post_install.sh
 ```
 
-### 2.4. Starship Prompt
-
-Ensure Starship is installed and link the configuration:
-
-```bash
-yay -S starship
-stow starship
-```
-
-The prompt is configured to hide the Google Cloud account e‑mail, showing only the GCP symbol, project and region.
+This will install `stow` and apply all modules automatically.
 
 ## Managed Programs
 
