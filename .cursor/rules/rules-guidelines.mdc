@@ -1,0 +1,34 @@
+---
+description: How to write Cursor MDC rules for this repo
+globs:
+alwaysApply: false
+---
+
+- Use MDC frontmatter with these fields:
+  - `description`: Brief purpose of the rule.
+  - `globs`: Optional list/patterns to auto-attach (leave empty for non-auto).
+  - `alwaysApply`: Set `true` only for rules that must always load.
+- Rule types (set via Cursor UI):
+  - Always: `alwaysApply: true`.
+  - Auto Attached: provide `globs` patterns; `alwaysApply: false`.
+  - Agent Requested: no `globs`; `alwaysApply: false`; clear `description` so AI can decide.
+  - Manual: referenced explicitly in prompts using `@rule-name-or-file`.
+- Writing guidelines:
+  - Keep content concise and imperative; prefer bullet points over prose.
+  - Include only the constraints and steps that matter for decisions.
+  - Use short code fences for commands; avoid large blocks.
+  - Reference files with `@path` when helpful.
+  - English by default; be consistent with naming and conventions.
+- Template:
+  ```md
+  ---
+  description: One-line description
+  globs:
+  alwaysApply: false
+  ---
+
+  - Key constraint 1
+  - Key constraint 2
+
+  @optional/reference-file.ext
+  ```

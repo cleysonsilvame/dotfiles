@@ -1,0 +1,52 @@
+---
+description: Add or adopt a dotfiles module with GNU Stow
+globs:
+alwaysApply: false
+---
+
+- New module (from scratch):
+  - Create a module directory at the repo root (e.g., `zsh/`).
+  - Mirror target paths from `$HOME` inside the module.
+    - Example: `zsh/.config/zsh/.zshrc`
+    - Example: `kitty/.config/kitty/kitty.conf`
+
+- Adopt an existing config from `~/.config`:
+  - Backup if needed, then move files into the repo keeping the same structure.
+  - Example for `kitty`:
+    ```bash
+    mkdir -p kitty/.config/kitty
+    rsync -a --remove-source-files "$HOME/.config/kitty/" "kitty/.config/kitty/"
+    find "$HOME/.config/kitty" -type d -empty -delete
+    ```
+  - Repeat for other apps, preserving paths under the module.
+
+- Portability:
+  - Prefer `$HOME`/XDG paths; avoid machine-specific absolute paths.
+  - Keep overrides in separate files you can conditionally source.
+
+- Run from repo root:
+  - Dry-run preview:
+    ```bash
+    stow -nv MODULE_NAME
+    ```
+  - Apply symlinks:
+    ```bash
+    stow MODULE_NAME
+    ```
+  - Restow after renames/moves:
+    ```bash
+    stow -R MODULE_NAME
+    ```
+  - Unstow if needed:
+    ```bash
+    stow -D MODULE_NAME
+    ```
+
+- Verify:
+  - Confirm expected files are symlinked under `$HOME` and reload the app/config.
+
+- Commit convention:
+  ```bash
+  git add MODULE_NAME README.md
+  git commit -m "feat(MODULE_NAME): add initial module via stow"
+  ```
