@@ -1,3 +1,5 @@
+eval "$(starship init bash)"
+
 # All the default Omarchy aliases and functions
 # (don't mess with these directly, just overwrite them here!)
 source ~/.local/share/omarchy/default/bash/rc
@@ -23,4 +25,10 @@ if [ -f '/home/cleyson/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/hom
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/cleyson/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/cleyson/Downloads/google-cloud-sdk/completion.bash.inc'; fi
 
+# Console ninja vscode extension
 PATH=~/.console-ninja/.bin:$PATH
+
+. "$HOME/.local/share/../bin/env"
+
+# Add local bin to path
+export PATH="$HOME/.local/bin:$PATH"
