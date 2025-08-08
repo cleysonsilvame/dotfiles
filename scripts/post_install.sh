@@ -6,6 +6,7 @@ set -euo pipefail
 # - Stows dotfile modules
 # - Removes selected Omarchy WebApps
 # - Configures Nautilus 'Open in Terminal' (Alacritty)
+# - Disables systemd-networkd-wait-online.service (if present)
 
 require_sudo() {
   if ! sudo -v; then
@@ -48,19 +49,29 @@ stow_modules() {
   popd >/dev/null
 }
 
+disable_network_wait_online() {
+  echo "Disabling systemd-networkd-wait-online.service (if present)..."
+  if systemctl list-unit-files | grep -q '^systemd-networkd-wait-online.service'; then
+    sudo systemctl disable systemd-networkd-wait-online.service || true
+  else
+    echo "Service systemd-networkd-wait-online.service not found; skipping."
+  fi
+}
+
 print_notes() {
   cat <<'EONOTE'
 
 - Selected Omarchy WebApps have been removed (e.g., WhatsApp).
 - Nautilus “Open in Terminal” is configured to use Alacritty.
 - Selected dotfile modules have been stowed.
+- systemd-networkd-wait-online.service was disabled (if present).
 EONOTE
 }
 
 main() {
   require_sudo
 
-  TOTAL_STEPS=4
+  TOTAL_STEPS=5
   CURRENT_STEP=1
 
   echo "[$CURRENT_STEP/$TOTAL_STEPS] Installing required packages via yay..."
@@ -69,6 +80,10 @@ main() {
   CURRENT_STEP=$((CURRENT_STEP + 1))
   echo "[$CURRENT_STEP/$TOTAL_STEPS] Stowing modules (explicit list)..."
   stow_modules
+
+  CURRENT_STEP=$((CURRENT_STEP + 1))
+  echo "[$CURRENT_STEP/$TOTAL_STEPS] Disabling systemd-networkd-wait-online.service (if present)..."
+  disable_network_wait_online
 
   CURRENT_STEP=$((CURRENT_STEP + 1))
   echo "[$CURRENT_STEP/$TOTAL_STEPS] Removing Omarchy WebApps..."
