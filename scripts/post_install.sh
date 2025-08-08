@@ -27,6 +27,7 @@ install_packages() {
     libva-utils                # screenrecord
     intel-media-driver         # screenrecord
     nautilus-open-any-terminal # Nautilus "Open in Terminal"
+    zapzap
   )
   echo "Packages: ${PACKAGES[*]}"
   yay -S --needed --noconfirm "${PACKAGES[@]}" || true
