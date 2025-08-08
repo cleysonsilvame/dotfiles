@@ -51,6 +51,12 @@ To apply all configurations at once:
 stow *
 ```
 
+### 2.5. Post-install steps
+
+```bash
+./scripts/post_install.sh
+```
+
 ### 2.4. Starship Prompt
 
 Ensure Starship is installed and link the configuration:
@@ -83,4 +89,7 @@ The prompt is configured to hide the Google Cloud account e‑mail, showing only
 - [ ] Check if add the keyboard settings from ~/.config/fcitx5/
 - [ ] add keysmaps for vscode mode using as example the astronvim config
 - [ ] add script for post-install
+- [ ] Change all Whatsapp to ZapZap
+- [ ] Add open to terminal on nautilus
+- [ ] Adicionar configuração do Ctrl T do Diego no meu dotfiles
 
